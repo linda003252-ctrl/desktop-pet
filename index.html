@@ -1,76 +1,275 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>桌面宠物 - 虚拟小猫</title>
+    <title>Loulou - Smart Shopping Guide</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="stats-panel">
-            <div class="stat">
-                <span class="label">饱食度</span>
-                <div class="bar">
-                    <div class="fill hunger-bar" id="hungerBar"></div>
-                </div>
-                <span class="value" id="hungerValue">100%</span>
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="logo">
+                <span class="logo-icon">🐱</span>
+                <span class="logo-text">Loulou Shopping Guide</span>
             </div>
-            <div class="stat">
-                <span class="label">幸福度</span>
-                <div class="bar">
-                    <div class="fill happiness-bar" id="happinessBar"></div>
-                </div>
-                <span class="value" id="happinessValue">100%</span>
+            <div class="nav-links">
+                <a href="#cart" class="cart-link">🛒 Shopping Cart <span class="cart-count">0</span></a>
             </div>
-            <div class="stat">
-                <span class="label">精力值</span>
-                <div class="bar">
-                    <div class="fill energy-bar" id="energyBar"></div>
+        </nav>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <!-- Left Side: Pet Shopping Guide -->
+            <div class="pet-container">
+                <div class="pet-stage">
+                    <img id="petImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23E8F4F8' width='400' height='400'/%3E%3C/svg%3E" alt="Loulou" class="pet-photo">
+                    <div class="pet-name-tag" id="petNameTag">Loulou ♀</div>
                 </div>
-                <span class="value" id="energyValue">100%</span>
+
+                <!-- Speech Bubble -->
+                <div class="speech-bubble" id="speechBubble">
+                    <span id="speechText">Hi there! Let me help you find the perfect product for you! 😸</span>
+                </div>
+
+                <!-- Interactive Buttons (Shopping Guide Flow) -->
+                <div class="interaction-buttons">
+                    <button class="guide-btn" id="guideBtn1" data-question="category">
+                        <span>👜</span> Choose Category
+                    </button>
+                    <button class="guide-btn" id="guideBtn2" data-question="budget">
+                        <span>💰</span> Budget Range
+                    </button>
+                    <button class="guide-btn" id="guideBtn3" data-question="style">
+                        <span>🎨</span> Style Preference
+                    </button>
+                    <button class="guide-btn" id="guideBtn4" data-question="feature">
+                        <span>⚡</span> Key Features
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Side: Product Recommendation Area -->
+            <div class="recommendation-panel">
+                <!-- Selection Question Section -->
+                <div class="question-section" id="questionSection" style="display: none;">
+                    <h3 id="questionTitle">Please select an option</h3>
+                    <div class="options-grid" id="optionsGrid"></div>
+                </div>
+
+                <!-- Recommended Products Display -->
+                <div class="products-section" id="productsSection">
+                    <h3>🎁 Recommended Products</h3>
+                    <div class="products-grid" id="productsGrid">
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/200?text=Product1" alt="Product">
+                            </div>
+                            <div class="product-info">
+                                <h4>Classic Loulou</h4>
+                                <p class="product-desc">Lightweight and practical for everyday use</p>
+                                <div class="product-tags">
+                                    <span class="tag">Lightweight</span>
+                                    <span class="tag">Daily Use</span>
+                                </div>
+                                <div class="product-footer">
+                                    <span class="price">$29.99</span>
+                                    <button class="add-cart-btn">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/200?text=Product2" alt="Product">
+                            </div>
+                            <div class="product-info">
+                                <h4>Premium Loulou</h4>
+                                <p class="product-desc">Premium materials with professional quality</p>
+                                <div class="product-tags">
+                                    <span class="tag">Premium</span>
+                                    <span class="tag">Professional</span>
+                                </div>
+                                <div class="product-footer">
+                                    <span class="price">$49.99</span>
+                                    <button class="add-cart-btn">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">
+                                <img src="https://via.placeholder.com/200?text=Product3" alt="Product">
+                            </div>
+                            <div class="product-info">
+                                <h4>Deluxe Loulou Bundle</h4>
+                                <p class="product-desc">Complete configuration, all-in-one solution</p>
+                                <div class="product-tags">
+                                    <span class="tag">Bundle</span>
+                                    <span class="tag">Complete</span>
+                                </div>
+                                <div class="product-footer">
+                                    <span class="price">$89.99</span>
+                                    <button class="add-cart-btn">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Needs Summary -->
+                <div class="customer-profile" id="customerProfile" style="display: none;">
+                    <h4>📋 Your Needs Overview</h4>
+                    <div class="profile-items" id="profileItems"></div>
+                    <button class="btn-reset" id="resetBtn">🔄 Start Over</button>
+                </div>
             </div>
         </div>
 
-        <div class="pet-area">
-            <div class="pet" id="pet">
-                <canvas id="catCanvas" width="200" height="200"></canvas>
-                <div class="pet-name">小白</div>
-                <div class="speech-bubble" id="speechBubble"></div>
-            </div>
-        </div>
+        <!-- Customer Reviews Section -->
+        <section class="orders-showcase" id="ordersShowcase">
+            <h2>📦 Customer Reviews & Orders</h2>
+            <div class="orders-slider">
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="customer-name">Sarah M.</span>
+                        <span class="rating">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="order-comment">"Loulou is absolutely adorable and works perfectly! The customer service was fantastic and answered all my questions."</p>
+                    <div class="order-product">
+                        <span class="tag">Premium Loulou</span>
+                        <span class="order-date">Sept 10, 2024</span>
+                    </div>
+                </div>
 
-        <div class="controls">
-            <button class="btn btn-feed" id="feedBtn">
-                <span class="emoji">🍖</span> 喂食
-            </button>
-            <button class="btn btn-play" id="playBtn">
-                <span class="emoji">🎮</span> 玩耍
-            </button>
-            <button class="btn btn-sleep" id="sleepBtn">
-                <span class="emoji">😴</span> 睡觉
-            </button>
-            <button class="btn btn-pet" id="petBtn">
-                <span class="emoji">🤚</span> 抚摸
-            </button>
-        </div>
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="customer-name">James K.</span>
+                        <span class="rating">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="order-comment">"Great quality, very fast shipping! I've recommended it to several friends and they all love it too."</p>
+                    <div class="order-product">
+                        <span class="tag">Deluxe Loulou Bundle</span>
+                        <span class="order-date">Sept 8, 2024</span>
+                    </div>
+                </div>
 
-        <div class="info-panel">
-            <div class="info-item">
-                <span class="info-label">年龄:</span>
-                <span class="info-value" id="ageValue">0 天</span>
+                <div class="order-card">
+                    <div class="order-header">
+                        <span class="customer-name">Emily R.</span>
+                        <span class="rating">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p class="order-comment">"The customer service team was very attentive and answered all my questions. The packaging was beautiful and the product arrived in perfect condition."</p>
+                    <div class="order-product">
+                        <span class="tag">Classic Loulou</span>
+                        <span class="order-date">Sept 5, 2024</span>
+                    </div>
+                </div>
             </div>
-            <div class="info-item">
-                <span class="info-label">心情:</span>
-                <span class="info-value" id="moodValue">😸 开心</span>
+        </section>
+
+        <!-- Product Comparison -->
+        <section class="comparison-section" id="comparisonSection">
+            <h2>📊 Product Comparison</h2>
+            <div class="comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Features</th>
+                            <th>Classic</th>
+                            <th>Premium</th>
+                            <th>Deluxe Bundle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic Features</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Premium Materials</td>
+                            <td>-</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Extended Accessories</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Priority Support</td>
+                            <td>-</td>
+                            <td>✓</td>
+                            <td>✓</td>
+                        </tr>
+                        <tr>
+                            <td>Warranty</td>
+                            <td>1 Year</td>
+                            <td>2 Years</td>
+                            <td>3 Years</td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>$29.99</td>
+                            <td>$49.99</td>
+                            <td>$89.99</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="info-item">
-                <span class="info-label">状态:</span>
-                <span class="info-value" id="statusValue">正在休闲</span>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p>📧 Email: support@loulou.com</p>
+                    <p>💬 Chat: hello@loulou.com</p>
+                    <p>📞 Phone: 1-800-LOULOU-1</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Shopping Services</h4>
+                    <p>✈️ Free Shipping in the US</p>
+                    <p>🔄 30-Day Money-Back Guarantee</p>
+                    <p>💳 Multiple Payment Options</p>
+                </div>
+                <div class="footer-section">
+                    <h4>About Us</h4>
+                    <p>🏆 Quality Guaranteed</p>
+                    <p>🤝 Customer First</p>
+                    <p>⚡ Fast Response</p>
+                </div>
             </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Loulou Official Store | All Rights Reserved</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>🛒 Shopping Cart</h3>
+            <button class="close-btn" id="closeCartBtn">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Subtotal:</span>
+                <span class="total-price" id="totalPrice">$0.00</span>
+            </div>
+            <button class="btn btn-checkout" id="checkoutBtn">Checkout</button>
         </div>
     </div>
 
-    <script src="pet.js"></script>
+    <script src="pet-guide.js"></script>
 </body>
 </html>
