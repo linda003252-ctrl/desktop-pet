@@ -24,7 +24,17 @@
             <!-- Left Side: Pet Shopping Guide -->
             <div class="pet-container">
                 <div class="pet-stage">
-                    <img id="petImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23E8F4F8' width='400' height='400'/%3E%3C/svg%3E" alt="Loulou" class="pet-photo">
+                    <!-- Carousel of Loulou photos -->
+                    <div class="pet-carousel">
+                        <img class="pet-photo active" src="" alt="Loulou 1" id="petPhoto1">
+                        <img class="pet-photo" src="" alt="Loulou 2" id="petPhoto2">
+                        <img class="pet-photo" src="" alt="Loulou 3" id="petPhoto3">
+                        <img class="pet-photo" src="" alt="Loulou 4" id="petPhoto4">
+                    </div>
+                    <div class="carousel-controls">
+                        <button class="carousel-btn prev" id="prevPhoto">❮</button>
+                        <button class="carousel-btn next" id="nextPhoto">❯</button>
+                    </div>
                     <div class="pet-name-tag" id="petNameTag">Loulou ♀</div>
                 </div>
 
