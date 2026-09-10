@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桌面宠物 - 虚拟小猫</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="stats-panel">
+            <div class="stat">
+                <span class="label">饱食度</span>
+                <div class="bar">
+                    <div class="fill hunger-bar" id="hungerBar"></div>
+                </div>
+                <span class="value" id="hungerValue">100%</span>
+            </div>
+            <div class="stat">
+                <span class="label">幸福度</span>
+                <div class="bar">
+                    <div class="fill happiness-bar" id="happinessBar"></div>
+                </div>
+                <span class="value" id="happinessValue">100%</span>
+            </div>
+            <div class="stat">
+                <span class="label">精力值</span>
+                <div class="bar">
+                    <div class="fill energy-bar" id="energyBar"></div>
+                </div>
+                <span class="value" id="energyValue">100%</span>
+            </div>
+        </div>
+
+        <div class="pet-area">
+            <div class="pet" id="pet">
+                <canvas id="catCanvas" width="200" height="200"></canvas>
+                <div class="pet-name">小白</div>
+                <div class="speech-bubble" id="speechBubble"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-feed" id="feedBtn">
+                <span class="emoji">🍖</span> 喂食
+            </button>
+            <button class="btn btn-play" id="playBtn">
+                <span class="emoji">🎮</span> 玩耍
+            </button>
+            <button class="btn btn-sleep" id="sleepBtn">
+                <span class="emoji">😴</span> 睡觉
+            </button>
+            <button class="btn btn-pet" id="petBtn">
+                <span class="emoji">🤚</span> 抚摸
+            </button>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">年龄:</span>
+                <span class="info-value" id="ageValue">0 天</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">心情:</span>
+                <span class="info-value" id="moodValue">😸 开心</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">状态:</span>
+                <span class="info-value" id="statusValue">正在休闲</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="pet.js"></script>
+</body>
+</html>
