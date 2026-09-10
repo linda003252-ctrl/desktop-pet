@@ -43,6 +43,15 @@ let customerProfile = {};
 let currentStep = 0;
 const steps = ['category', 'budget', 'style', 'feature'];
 
+// Photo carousel state
+let currentPhotoIndex = 0;
+const petPhotos = [
+    'https://raw.githubusercontent.com/linda003252-ctrl/desktop-pet/main/4cccb916a6f192b97ecda550a4c0cb9c.jpg',
+    'https://raw.githubusercontent.com/linda003252-ctrl/desktop-pet/main/d08868fda9c007eb154eeb02eb2d588e.jpg',
+    'https://raw.githubusercontent.com/linda003252-ctrl/desktop-pet/main/db63017ca08eea54bff86b2a030ad2fe.jpg',
+    'https://raw.githubusercontent.com/linda003252-ctrl/desktop-pet/main/40f604482647c41e919ea047f6cd20d3.jpg'
+];
+
 // Speech messages for Loulou
 const speeches = {
     welcome: "Hi there! Let me help you find the perfect product for you! 😸",
@@ -55,7 +64,9 @@ const speeches = {
 };
 
 // DOM Elements
-const petImage = document.getElementById('petImage');
+const petPhotosElements = document.querySelectorAll('.pet-photo');
+const prevPhotoBtn = document.getElementById('prevPhoto');
+const nextPhotoBtn = document.getElementById('nextPhoto');
 const speechText = document.getElementById('speechText');
 const speechBubble = document.getElementById('speechBubble');
 const questionSection = document.getElementById('questionSection');
@@ -77,11 +88,28 @@ let cart = [];
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    initializePhotos();
     attachEventListeners();
-    loadSampleImage();
 });
 
+// Initialize pet photos
+function initializePhotos() {
+    petPhotosElements.forEach((photo, index) => {
+        photo.src = petPhotos[index];
+        photo.style.display = index === 0 ? 'block' : 'none';
+    });
+}
+
 function attachEventListeners() {
+    // Photo carousel
+    if (prevPhotoBtn) {
+        prevPhotoBtn.addEventListener('click', () => changePhoto(-1));
+    }
+    if (nextPhotoBtn) {
+        nextPhotoBtn.addEventListener('click', () => changePhoto(1));
+    }
+
+    // Guide buttons
     guideButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             const question = e.currentTarget.dataset.question;
@@ -89,6 +117,7 @@ function attachEventListeners() {
         });
     });
 
+    // Other controls
     resetBtn.addEventListener('click', resetGuide);
     cartLink.addEventListener('click', (e) => {
         e.preventDefault();
@@ -103,100 +132,13 @@ function attachEventListeners() {
     });
 }
 
-// Load sample cat image
-function loadSampleImage() {
-    // You can replace this with actual image URL
-    const canvas = document.createElement('canvas');
-    canvas.width = 400;
-    canvas.height = 400;
-    const ctx = canvas.getContext('2d');
-    
-    // Draw a simple cat illustration
-    drawCat(ctx);
-    
-    petImage.src = canvas.toDataURL();
-}
-
-function drawCat(ctx) {
-    const centerX = 200;
-    const centerY = 200;
-    
-    // Background
-    ctx.fillStyle = '#E8F4F8';
-    ctx.fillRect(0, 0, 400, 400);
-    
-    // Head
-    ctx.fillStyle = '#8B8B8B';
-    ctx.beginPath();
-    ctx.arc(centerX, centerY - 20, 80, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Ears
-    ctx.fillStyle = '#8B8B8B';
-    ctx.beginPath();
-    ctx.moveTo(centerX - 60, centerY - 80);
-    ctx.lineTo(centerX - 80, centerY - 140);
-    ctx.lineTo(centerX - 40, centerY - 100);
-    ctx.fill();
-    
-    ctx.beginPath();
-    ctx.moveTo(centerX + 60, centerY - 80);
-    ctx.lineTo(centerX + 80, centerY - 140);
-    ctx.lineTo(centerX + 40, centerY - 100);
-    ctx.fill();
-    
-    // Inner ears
-    ctx.fillStyle = '#FFB6C1';
-    ctx.beginPath();
-    ctx.arc(centerX - 55, centerY - 95, 15, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(centerX + 55, centerY - 95, 15, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Eyes
-    ctx.fillStyle = '#white';
-    ctx.beginPath();
-    ctx.arc(centerX - 30, centerY - 30, 15, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(centerX + 30, centerY - 30, 15, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Pupils
-    ctx.fillStyle = '#000000';
-    ctx.beginPath();
-    ctx.arc(centerX - 30, centerY - 30, 8, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(centerX + 30, centerY - 30, 8, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Nose
-    ctx.fillStyle = '#FFB6C1';
-    ctx.beginPath();
-    ctx.arc(centerX, centerY + 5, 8, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Mouth
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(centerX, centerY + 15, 15, 0, Math.PI);
-    ctx.stroke();
-    
-    // Body
-    ctx.fillStyle = '#F0F0F0';
-    ctx.beginPath();
-    ctx.ellipse(centerX, centerY + 100, 70, 90, 0, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Tail
-    ctx.strokeStyle = '#8B8B8B';
-    ctx.lineWidth = 20;
-    ctx.beginPath();
-    ctx.arc(centerX + 80, centerY + 60, 50, Math.PI * 1.5, 0);
-    ctx.stroke();
+// Photo carousel functions
+function changePhoto(direction) {
+    petPhotosElements[currentPhotoIndex].style.display = 'none';
+    currentPhotoIndex = (currentPhotoIndex + direction + petPhotos.length) % petPhotos.length;
+    petPhotosElements[currentPhotoIndex].style.display = 'block';
+    updateSpeech("Look at this adorable pose! 😸");
+    animatePet();
 }
 
 function startGuide(questionKey) {
@@ -324,7 +266,7 @@ function updateCart() {
             <div class="cart-item">
                 <div>
                     <strong>${item.name}</strong><br>
-                    <span>${item.price}</span>
+                    <span>$${item.price.toFixed(2)}</span>
                 </div>
                 <button onclick="removeFromCart(${item.id})" style="background: #FF6B6B; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">Remove</button>
             </div>
@@ -340,23 +282,3 @@ function removeFromCart(itemId) {
     updateCart();
     updateSpeech('Removed from cart! 🗑️');
 }
-
-// Allow uploading pet image
-const fileInput = document.createElement('input');
-fileInput.type = 'file';
-fileInput.accept = 'image/*';
-fileInput.style.display = 'none';
-fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (event) => {
-        petImage.src = event.target.result;
-    };
-    reader.readAsDataURL(file);
-});
-document.body.appendChild(fileInput);
-
-// Add ability to click pet stage to upload image
-document.querySelector('.pet-stage').addEventListener('click', () => {
-    fileInput.click();
-});
